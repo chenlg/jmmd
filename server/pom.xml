@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.jmmd</groupId>
+		<artifactId>jmmd</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>com.jmmd</groupId>
+	<artifactId>jmmd-server</artifactId>
+	<version>1.0.0</version>
+
+	<packaging>war</packaging>
+
+	<name>jmmd-server Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<description>JMMD Webapp Area</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.jmmd</groupId>
+			<artifactId>jmmd-biz-daemon</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- war 插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>jmmd</warName>
+				</configuration>
+			</plugin>
+
+			<!-- tomcat 7 插件 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<configuration>
+					<port>8080</port>
+					<path>/jmmd</path>
+					<uriEncoding>UTF-8</uriEncoding>
+					<finalName>jmmd</finalName>
+				</configuration>
+			</plugin>
+
+			<!-- jetty插件, 设定context path与spring profile -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<stopKey>foo</stopKey>
+					<stopPort>9999</stopPort>
+					<systemProperties>
+						<systemProperty>
+							<name>spring.profiles.active</name>
+							<value>development</value>
+						</systemProperty>
+					</systemProperties>
+					<useTestClasspath>true</useTestClasspath>
+					<webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
+					<classesDirectory>target/classes</classesDirectory>
+					<!-- 额外扫描的class路径 -->
+					<scanTargets>
+						<scanTarget>../modules/biz/daemon/target/classes</scanTarget>
+						<scanTarget>../modules/biz/manager/bo/target/classes</scanTarget>
+						<scanTarget>../modules/biz/manager/handle/target/classes</scanTarget>
+						<scanTarget>../modules/biz/process/target/classes</scanTarget>
+						<scanTarget>../modules/biz/shared/target/classes</scanTarget>
+						<scanTarget>../modules/common/service/dto/target/classes</scanTarget>
+						<scanTarget>../modules/common/service/remote/target/classes</scanTarget>
+						<scanTarget>../modules/common/shared/target/classes</scanTarget>
+						<scanTarget>../modules/common/utils/target/classes</scanTarget>
+						<scanTarget>../modules/core/domain/target/classes</scanTarget>
+						<scanTarget>../modules/core/persistant/po/target/classes</scanTarget>
+						<scanTarget>../modules/core/persistant/repository/target/classes</scanTarget>
+						<scanTarget>../modules/core/process/target/classes</scanTarget>
+						<scanTarget>../modules/core/shared/target/classes</scanTarget>
+					</scanTargets>
+
+					<webAppConfig>
+						<contextPath>/jmmd</contextPath>
+						<extraClasspath>
+							../modules/biz/daemon/target/classes;
+							../modules/biz/manager/bo/target/classes;
+							../modules/biz/manager/handle/target/classes;
+							../modules/biz/process/target/classes;
+							../modules/biz/shared/target/classes;
+							../modules/common/service/dto/target/classes;
+							../modules/common/service/remote/target/classes;
+							../modules/common/shared/target/classes;
+							../modules/common/utils/target/classes;
+							../modules/core/domain/target/classes;
+							../modules/core/persistant/po/target/classes;
+							../modules/core/persistant/repository/target/classes;
+							../modules/core/process/target/classes;
+							../modules/core/shared/target/classes;
+						</extraClasspath>
+					</webAppConfig>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

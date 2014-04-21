@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.jmmd.core.persistant.repository.task.TaskMybatisDao">
+	<!-- 获取任务 -->
+	<select id="get" parameterType="int" resultType="TaskPO">
+		select task_id
+		as taskId,task_name as taskName,task_code as taskCode,status as status
+		from ss_task
+		where task_id=#{taskId}
+	</select>
+
+	<!-- 保存任务 -->
+	<insert id="save" parameterType="TaskPO" useGeneratedKeys="true"
+		keyProperty="taskId">
+		insert into ss_task (task_name,task_code,status)
+		values
+		(#{taskName}, #{taskCode}, #{status})
+	</insert>
+
+	<!-- 删除任务 -->
+	<delete id="delete" parameterType="int">
+		delete from ss_task where task_id=#{taskId}
+	</delete>
+</mapper> 
